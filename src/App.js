@@ -13,10 +13,13 @@ export default function App() {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
   const [data, setData] = React.useState(null);
+  const [ attribute , setAttribute ] = React.useState(true);
 
   const handleSubmit = (text) => {
     setQuery(text);
   };
+
+
 
   React.useEffect(() => {
     spinner = document.getElementById("spinner");
@@ -25,7 +28,9 @@ export default function App() {
       setData([]);
       return;
     }
-    spinner.removeAttribute("hidden");
+
+    setAttribute(false);
+    console.log(attribute);
     fetch(
       `https://cors-anywhere.herokuapp.com/https://api.github.com/users/${query}`
     )
@@ -36,16 +41,16 @@ export default function App() {
       })
       .catch(() => alert("Došlo je do greške"));
 
-    spinner.removeAttribute("hidden");
     fetch(
       `https://cors-anywhere.herokuapp.com/https://api.github.com/users/${query}/repos`
     )
       .then((response) => response.json())
       .then((githubData) => {
-        spinner.setAttribute("hidden", "");
+        setAttribute(true);
         setData(githubData);
       })
       .catch(() => alert("Došlo je do greške"));
+      
   }, [query, setResults]);
 
   const resetState = () => {
@@ -58,7 +63,7 @@ export default function App() {
   return (
     <div>
       <InputForm handleSubmit={handleSubmit}></InputForm>
-      <div hidden id="spinner"></div>
+      <div hidden={attribute} id="spinner"></div>
       <DisplayData
         location={location}
         name={name}
