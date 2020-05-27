@@ -7,8 +7,6 @@ import Button from "react-bootstrap/Button";
 
 
 
-let spinner;
-
 export default function App() {
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState([]);
@@ -22,7 +20,6 @@ export default function App() {
 
 
   React.useEffect(() => {
-    spinner = document.getElementById("spinner");
     if (!query) {
       setResults([]);
       setData([]);
@@ -63,7 +60,7 @@ export default function App() {
   return (
     <div>
       <InputForm handleSubmit={handleSubmit}></InputForm>
-      <div hidden={attribute} id="spinner"></div>
+      <div hidden={attribute}></div>
       <DisplayData
         location={location}
         name={name}
